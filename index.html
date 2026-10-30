@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Curvebook: easing curve lab</title>
+  <meta name="description" content="Drag the handles of a cubic-bezier curve, watch it move, and copy the timing function for CSS, JavaScript or Tailwind.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <div>
+        <h1>Curvebook</h1>
+        <p class="lede">Drag the handles, watch it move, copy the timing function.</p>
+      </div>
+      <button id="replay" class="btn primary" type="button">Replay <kbd>Space</kbd></button>
+    </header>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>Curve</h2>
+        <div id="presets" class="chips" role="group" aria-label="Preset curves"></div>
+
+        <svg id="graph" viewBox="0 0 320 540" role="group" aria-label="Cubic bezier editor. Two draggable handles.">
+          <g id="gridlines"></g>
+          <line id="diag" class="diag" />
+          <line id="ctrl1" class="ctrl" />
+          <line id="ctrl2" class="ctrl" />
+          <path id="curve" class="curve" />
+          <circle id="dot" class="dot" r="7" />
+          <g id="h1" class="handle h1" tabindex="0" role="slider" aria-orientation="vertical">
+            <circle class="halo" r="22" />
+            <circle class="knob" r="11" />
+          </g>
+          <g id="h2" class="handle h2" tabindex="0" role="slider" aria-orientation="vertical">
+            <circle class="halo" r="22" />
+            <circle class="knob" r="11" />
+          </g>
+        </svg>
+        <p class="hint">Arrow keys nudge a focused handle. Hold Shift for bigger steps.</p>
+
+        <div class="fields">
+          <label>x1 <input id="x1" type="number" step="0.01" min="0" max="1" inputmode="decimal"></label>
+          <label>y1 <input id="y1" type="number" step="0.01" min="-0.6" max="1.6" inputmode="decimal"></label>
+          <label>x2 <input id="x2" type="number" step="0.01" min="0" max="1" inputmode="decimal"></label>
+          <label>y2 <input id="y2" type="number" step="0.01" min="-0.6" max="1.6" inputmode="decimal"></label>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Preview</h2>
+        <div class="controls">
+          <label class="range">Duration
+            <input id="duration" type="range" min="200" max="2000" step="50" value="700">
+            <output id="durationOut">700 ms</output>
+          </label>
+          <label class="check"><input id="loop" type="checkbox"> Loop</label>
+        </div>
+
+        <div class="tracks">
+          <div class="track">
+            <span class="label">Position</span>
+            <div class="lane" id="lane"><div class="ball ghost" id="ghost" title="Linear, for comparison"></div><div class="ball" id="ball"></div></div>
+          </div>
+          <div class="track">
+            <span class="label">Scale</span>
+            <div class="lane small"><div class="shape" id="scaleShape"></div></div>
+          </div>
+          <div class="track">
+            <span class="label">Rotate</span>
+            <div class="lane small"><div class="shape bar" id="rotShape"></div></div>
+          </div>
+          <div class="track">
+            <span class="label">Opacity</span>
+            <div class="lane small"><div class="shape round" id="fadeShape"></div></div>
+          </div>
+        </div>
+        <p class="hint">The faint ball is plain <code>linear</code>, so you can feel what your curve adds.</p>
+      </div>
+    </section>
+
+    <section class="panel output">
+      <div class="outhead">
+        <h2>Export</h2>
+        <div id="formats" class="chips" role="group" aria-label="Export format"></div>
+      </div>
+      <pre><code id="code"></code></pre>
+      <div class="actions">
+        <button id="copy" class="btn primary" type="button">Copy</button>
+        <button id="save" class="btn" type="button">Save curve</button>
+        <span id="toast" class="toast" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Saved curves</h2>
+      <p id="emptySaved" class="hint">Nothing saved yet. Save a curve and it stays in this browser.</p>
+      <div id="saved" class="saved"></div>
+    </section>
+
+    <footer class="foot">
+      <span>Built by Ayoboyede. HTML, CSS and vanilla JavaScript, no dependencies.</span>
+    </footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
